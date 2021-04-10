@@ -1,0 +1,45 @@
+<html>
+<head>
+	<title>Exe2shellcode</title>
+	<script src="exe2shellcode.js"></script>
+</head>
+<body>
+<h1>Exe转shellcode工具</h1>
+<h2>提供你的exe的下载地址，即可生成相应的远程下载的shellcode，64位程序和32位程序不通用，请认真核对</h2>
+例子（只支持https下载）：
+<table border="1">
+  <tr>
+    <th>域名</th>
+    <th>9bie.org</th>
+  </tr>
+  <tr>
+    <td>地址</td>
+    <td>/muma.exe</td>
+  </tr>
+</table>
+<br>
+
+<table border="1">
+  <tr>
+    <th>域名</th>
+    <th><input id="host"></th>
+    <td><button onclick="generate64()">生成64位shellcode</button></td>
+  </tr>
+  <tr>
+    <td>地址</td>
+    <td><input id="path"></td>
+    <td><button onclick="generate32()">生成32位shellcode</button></td>
+  </tr>
+</table>
+
+<div align="right">
+Made By 9BIE<br>
+Blog: <a href="https://9bie.org">https://9bie.org</a><br>
+Github: <a href="https://github.com/9bie/RmExecute">https://github.com/9bie/RmExecute</a><br>
+Web Tools: <a href="https://tool.9bie.org">https://tool.9bie.org</a>  
+</div>
+<div ></div>
+<h3>结果</h3>
+<textarea id="result" style="width: 100%; " rows="5"></textarea>
+</body>
+</html>
